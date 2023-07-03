@@ -1,8 +1,9 @@
 import { DataTypes } from "sequelize";
 import {sequelize} from '../database/database.js'
+import { Usuario } from "./usuario.js";
 
-export const Roles = sequelize.define('rol', {
-    id: {
+export const Roles = sequelize.define('roles', {
+    idRole: {
         type: DataTypes.UUID,
         primaryKey: true,
         defaultValue: DataTypes.UUIDV1
@@ -13,4 +14,14 @@ export const Roles = sequelize.define('rol', {
     }
 }, {
     timestamps: false
-})
+});
+
+Roles.hasMany(Usuario, {
+    foreignKey: 'roleid',
+    sourceKey: 'idRole'
+});
+
+Usuario.belongsTo(Roles, {
+    foreignKey: 'roleid',
+    sourceKey: 'idUsuario'
+});

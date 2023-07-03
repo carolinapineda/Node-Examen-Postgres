@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 import {sequelize} from '../database/database.js'
 
-export const Producto = sequelize.define('productos', {
-    id: {
+export const Productos = sequelize.define('productos', {
+    idProducto: {
         type: DataTypes.UUID,
         primaryKey: true,
         defaultValue: DataTypes.UUIDV1
@@ -22,4 +22,4 @@ export const Producto = sequelize.define('productos', {
 
 }, {
     timestamps: false
-})
+});

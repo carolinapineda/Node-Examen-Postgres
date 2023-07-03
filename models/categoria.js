@@ -1,8 +1,9 @@
 import { DataTypes } from "sequelize"
 import {sequelize} from '../database/database.js'
+import { Productos } from "./producto.js";
 
-export const Categoria = sequelize.define('categorias', {
-    id: {
+export const Categorias = sequelize.define('categorias', {
+    idCategoria: {
         type: DataTypes.UUID,
         primaryKey: true,
         defaultValue: DataTypes.UUIDV1
@@ -12,4 +13,14 @@ export const Categoria = sequelize.define('categorias', {
     },
 },{
     timestamps: false
+});
+
+Categorias.hasMany(Productos, {
+    foreignKey: 'categoriaid',
+    sourceKey: 'idCategoria'
+});
+
+Productos.belongsTo(Categorias, {
+    foreignKey: 'categoriaid',
+    sourceKey: 'idProducto'
 });
