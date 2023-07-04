@@ -62,15 +62,16 @@ export const putUsuario = async(req, res) => {
 export const deleteUsuario = async(req, res) => {
     
     const {id} = req.params;
-
+   
     try {
-       Usuario.destroy({
+        await Usuario.destroy({
             where: {
                 id,
             }
-       });
-
-       res.sendStatus(400);
+        });
+        res.json({
+            message: `Se elimino correctamente el usuario con id ${id}`
+        })
        
     } catch (error) {
         return res.status(500).json({
@@ -80,5 +81,16 @@ export const deleteUsuario = async(req, res) => {
 };
 
 export const getUsuarioPorId = async(req, res) => {
+    
+    const {id} = req.params;
+    const usuario = await Usuario.findOne({
+        where: {id}
+    });
 
-};
+    if(!usuario) 
+            return res.status(400).json({
+                message: `no existe el usuario con el id ${id}`
+            })
+
+    res.json(usuario);
+}; 
