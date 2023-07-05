@@ -16,11 +16,13 @@ export const Roles = sequelize.define('roles', {
     timestamps: false
 });
 
+// hasMany relacion de uno a muchos
 Roles.hasMany(Usuario, {
     foreignKey: 'roleid',
     sourceKey: 'idRole'
 });
 
+// belongsTo relacion de uno a uno
 Usuario.belongsTo(Roles, {
     foreignKey: 'roleid',
     sourceKey: 'idUsuario'

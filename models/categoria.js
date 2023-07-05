@@ -3,7 +3,7 @@ import {sequelize} from '../database/database.js'
 import { Productos } from "./producto.js";
 
 export const Categorias = sequelize.define('categorias', {
-    idCategoria: {
+    id: {
         type: DataTypes.UUID,
         primaryKey: true,
         defaultValue: DataTypes.UUIDV1
@@ -15,12 +15,14 @@ export const Categorias = sequelize.define('categorias', {
     timestamps: false
 });
 
+// hasMany relacion de uno a muchos
 Categorias.hasMany(Productos, {
     foreignKey: 'categoriaid',
-    sourceKey: 'idCategoria'
+    sourceKey: 'id'
 });
 
+// belongsTo relacion de uno a uno
 Productos.belongsTo(Categorias, {
     foreignKey: 'categoriaid',
-    sourceKey: 'idProducto'
+    sourceKey: 'id'
 });

@@ -26,11 +26,13 @@ export const Usuario = sequelize.define('usuarios', {
     timestamps: false
 });
 
+// hasMany relacion de uno a muchos
 Usuario.hasMany(Productos, {
     foreignKey: 'usuarioid',
     sourceKey: 'id'
 });
 
+// belongsTo relacion de uno a uno
 Productos.belongsTo(Usuario, {
     foreignKey: 'usuarioid',
     sourceKey: 'id'

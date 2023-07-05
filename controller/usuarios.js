@@ -1,4 +1,3 @@
-import { UUID } from "sequelize";
 import { Usuario } from "../models/usuario.js";
 
 export const getUsuario = async(req, res) => {
@@ -43,10 +42,12 @@ export const putUsuario = async(req, res) => {
 
             const usuario = await Usuario.findByPk(id);
 
+            // Para cambiar los valores 
             usuario.nombre = nombre,
             usuario.correo = correo,
             usuario.password = password
 
+            // Despues se guardara en la base de datos
             await usuario.save();
 
             res.json(usuario);
@@ -64,6 +65,7 @@ export const deleteUsuario = async(req, res) => {
     const {id} = req.params;
    
     try {
+        // destroy buscar y eliminar al mismo tiempo
         await Usuario.destroy({
             where: {
                 id,
@@ -83,6 +85,7 @@ export const deleteUsuario = async(req, res) => {
 export const getUsuarioPorId = async(req, res) => {
     
     const {id} = req.params;
+    //findOne() obtiene la primera entrada que encuentra (que cumple con las opciones de consulta opcionales).
     const usuario = await Usuario.findOne({
         where: {id}
     });
