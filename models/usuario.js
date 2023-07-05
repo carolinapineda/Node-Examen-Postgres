@@ -8,7 +8,6 @@ export const Usuario = sequelize.define('usuarios', {
         primaryKey: true,
         defaultValue: DataTypes.UUIDV1,
         allowNull: false,
-        unique: true
     },
     nombre: {
         type: DataTypes.STRING
@@ -18,6 +17,10 @@ export const Usuario = sequelize.define('usuarios', {
     },
     password: {
         type: DataTypes.INTEGER
+    },
+    rol: {
+        type: DataTypes.STRING,
+        defaultValue: 'USER_ROLE'
     }
 }, {
     timestamps: false

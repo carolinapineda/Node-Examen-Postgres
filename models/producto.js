@@ -11,13 +11,16 @@ export const Productos = sequelize.define('productos', {
         type: DataTypes.STRING
     },
     precio: {
-        type: DataTypes.DOUBLE
+        type: DataTypes.DOUBLE,
+        allowNull: false,
     },
     descripcion: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false,
     },
     disponible: {
-        type: DataTypes.BOOLEAN
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
     }
 
 }, {

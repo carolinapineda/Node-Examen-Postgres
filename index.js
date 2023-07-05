@@ -3,13 +3,14 @@ import 'dotenv/config';
 import express from 'express';
 import {sequelize} from './database/database.js';
 
-import './models/categoria.js';
-import './models/producto.js';
-import './models/rol.js';
-import './models/usuario.js';
+// import './models/categoria.js';
+// import './models/producto.js';
+// import './models/rol.js';
+// import './models/usuario.js';
 
 // Importamos las rutas a utilizar
 import usuarioRoutes  from './routes/usuario.js'
+import productoRoutes from './routes/producto.js'
 
 const app = express();
 
@@ -21,6 +22,7 @@ const port = process.env.PORT;
 
 // Utilizamos las rutas
 app.use(usuarioRoutes);
+app.use(productoRoutes);
 
 async function main() { 
     try {
@@ -42,3 +44,4 @@ async function main() {
 }
 
 main();
+ 
