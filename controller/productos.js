@@ -35,7 +35,7 @@ export const putProducto = async(req, res) => {
     const producto = Productos.findOne({where:{id}});
 
     if(producto){
-        await Productos.update({
+        await producto.update({
             nombre: sequelize.literal(`UPPER('${nombre}')`),
             precio: precio,
             descripcion: sequelize.literal(`UPPER('${descripcion}')`),
