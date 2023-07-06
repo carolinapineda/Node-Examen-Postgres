@@ -1,6 +1,7 @@
 
 import 'dotenv/config';
 import express from 'express';
+import cors from 'cors';
 import {sequelize} from './database/database.js';
 
 // import './models/categoria.js';
@@ -11,7 +12,9 @@ import {sequelize} from './database/database.js';
 // Importamos las rutas a utilizar
 import usuarioRoutes  from './routes/usuario.js'
 import productoRoutes from './routes/producto.js'
+import categoriaRoutes from './routes/categoria.js'
 
+// Creacion de una instancia de la aplicacion Express
 const app = express();
 
 // Middlewares
@@ -20,9 +23,19 @@ app.use(express.json());
 // Definir el puerto
 const port = process.env.PORT;
 
+// Configuracion de opciones cors
+const corsOpcion = {
+    origin: 'http://localhost:4000'
+};
+
+// Utilizamos el cors
+app.use(cors(corsOpcion));
+
 // Utilizamos las rutas
 app.use(usuarioRoutes);
 app.use(productoRoutes);
+app.use(categoriaRoutes);
+
 
 async function main() { 
     try {
