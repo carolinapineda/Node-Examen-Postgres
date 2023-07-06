@@ -19,6 +19,7 @@ const app = express();
 
 // Middlewares
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Definir el puerto
 const port = process.env.PORT;
