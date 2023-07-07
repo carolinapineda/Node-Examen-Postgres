@@ -26,7 +26,7 @@ const port = process.env.PORT;
 
 // Configuracion de opciones cors
 const corsOpcion = {
-    origin: 'http://localhost:4000'
+    origin: 'http://localhost:4001'
 };
 
 // Utilizamos el cors
