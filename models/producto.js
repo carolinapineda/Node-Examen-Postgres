@@ -1,5 +1,7 @@
 import { DataTypes } from "sequelize";
 import {sequelize} from '../database/database.js'
+import { Categorias } from "./categoria.js";
+import { Usuario } from "./usuario.js";
 
 export const Productos = sequelize.define('productos', {
     id: {
@@ -26,3 +28,4 @@ export const Productos = sequelize.define('productos', {
 }, {
     timestamps: false
 });
+
