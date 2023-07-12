@@ -3,8 +3,7 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import {sequelize} from './database/database.js';
-import { Productos, Categorias, Usuarios, Roles } from './models/indexModels.js';
- 
+
 // import './models/categoria.js';
 // import './models/producto.js';
 // import './models/rol.js';
@@ -42,10 +41,8 @@ app.use(categoriaRoutes);
 async function main() { 
     try {
         // Sincronizacion a la base de datos
-        await sequelize.sync({force: true})
+        await sequelize.sync({force: false})
         
-        const usuario = Usuarios.create({usuario})
-        const productos = await Productos.create({usuarioId: usuario.id, productoId: productos.id})
         // Comprobar la conexion a la base de datos
         await sequelize.authenticate();
         console.log('La conexion a la base de datos se a establecido correctamente');
