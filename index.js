@@ -1,8 +1,10 @@
 
 import 'dotenv/config';
 import express from 'express';
+import cors from 'cors';
 import {sequelize} from './database/database.js';
-
+import { Productos, Categorias, Usuarios, Roles } from './models/indexModels.js';
+ 
 // import './models/categoria.js';
 // import './models/producto.js';
 // import './models/rol.js';
@@ -11,24 +13,39 @@ import {sequelize} from './database/database.js';
 // Importamos las rutas a utilizar
 import usuarioRoutes  from './routes/usuario.js'
 import productoRoutes from './routes/producto.js'
+import categoriaRoutes from './routes/categoria.js'
 
+// Creacion de una instancia de la aplicacion Express
 const app = express();
 
 // Middlewares
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Definir el puerto
 const port = process.env.PORT;
 
+// Configuracion de opciones cors
+const corsOpcion = {
+    origin: 'http://localhost:4001'
+};
+
+// Utilizamos el cors
+app.use(cors(corsOpcion));
+
 // Utilizamos las rutas
 app.use(usuarioRoutes);
 app.use(productoRoutes);
+app.use(categoriaRoutes);
+
 
 async function main() { 
     try {
         // Sincronizacion a la base de datos
-        await sequelize.sync({force: false})
+        await sequelize.sync({force: true})
         
+        const usuario = Usuarios.create({usuario})
+        const productos = await Productos.create({usuarioId: usuario.id, productoId: productos.id})
         // Comprobar la conexion a la base de datos
         await sequelize.authenticate();
         console.log('La conexion a la base de datos se a establecido correctamente');

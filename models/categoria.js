@@ -16,13 +16,12 @@ export const Categorias = sequelize.define('categorias', {
 });
 
 // hasMany relacion de uno a muchos
-Categorias.hasMany(Productos, {
-    foreignKey: 'categoriaid',
-    sourceKey: 'id'
-});
+// // Categorias.belongsTo(Productos, {
+// //     foreignKey: 'categoriaId', 
+// //     sourceKey: 'id'
+// // });
 
-// belongsTo relacion de uno a uno
-Productos.belongsTo(Categorias, {
-    foreignKey: 'categoriaid',
-    sourceKey: 'id'
-});
+// Productos.hasMany(Categorias, {
+//     foreignKey: 'categoriaId',
+//     sourceKey: 'id'
+// });

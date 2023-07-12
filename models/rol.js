@@ -1,12 +1,11 @@
-import { DataTypes } from "sequelize";
+import { DataTypes} from "sequelize";
 import {sequelize} from '../database/database.js'
 import { Usuario } from "./usuario.js";
 
 export const Roles = sequelize.define('roles', {
-    idRole: {
-        type: DataTypes.UUID,
+    id: {
+        type: DataTypes.INTEGER,
         primaryKey: true,
-        defaultValue: DataTypes.UUIDV1
     },
     rol: {
         type: DataTypes.STRING,
@@ -16,14 +15,4 @@ export const Roles = sequelize.define('roles', {
     timestamps: false
 });
 
-// hasMany relacion de uno a muchos
-Roles.hasMany(Usuario, {
-    foreignKey: 'roleid',
-    sourceKey: 'idRole'
-});
 
-// belongsTo relacion de uno a uno
-Usuario.belongsTo(Roles, {
-    foreignKey: 'roleid',
-    sourceKey: 'idUsuario'
-});
