@@ -60,7 +60,7 @@ export const deleteProducto = async(req, res) => {
 };
 
 
-export const getProductoPorId = async(req, res) => {
+export const getProductoPorId = async(req, res) => { 
     
     const {id} = req.params;
 
