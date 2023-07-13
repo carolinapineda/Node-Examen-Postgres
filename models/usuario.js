@@ -1,5 +1,6 @@
 import {DataTypes } from "sequelize";
 import {sequelize} from '../database/database.js'
+import { Roles } from "./rol.js";
 
 export const Usuario = sequelize.define('usuarios', {
     id: {
