@@ -1,4 +1,5 @@
 import { Usuario } from "../models/usuario.js";
+import {Roles} from '../models/rol.js'
 
 export const getUsuario = async(req, res) => {
 
@@ -17,15 +18,21 @@ export const postUsuario = async(req, res) => {
 
     const {nombre, correo, password} = req.body
 
+    const {id_role} = req.params
+
     try {
         // Para crear un usuario
         const newUsuario = await Usuario.create({
             nombre,
             correo,
-            password
+            password,
         });
 
-        res.json(newUsuario);
+        const usuarioRol = await Roles.create({
+            id_role
+        })
+
+        res.json(newUsuario, usuarioRol);
 
     } catch (error) {
         return res.status(500).json({
