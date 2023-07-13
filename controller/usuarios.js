@@ -1,5 +1,5 @@
-import { Usuario } from "../models/usuario.js";
-import {Roles} from '../models/rol.js'
+// import { Usuario } from "../models/usuario.js";
+import {Usuario, Roles} from '../models/index.js'
 
 export const getUsuario = async(req, res) => {
 
@@ -17,24 +17,20 @@ export const getUsuario = async(req, res) => {
 export const postUsuario = async(req, res) => {
 
     // obtener los datos de la solicitud
-    const {nombre, correo, password, roleid} = req.body
-    const {id} = req.params
+    const {nombre, correo, roleid} = req.body
+   
+
+
     try {
 
-        const rolEncontrado = await Roles.findOne(roleid=2)
+        let role = await Roles.findAll({where:{id:2}})
         
-
-        // Para crear un usuario
         const newUsuario = await Usuario.create({
             nombre,
             correo,
-            password,
-            roleid: rolEncontrado
+            roleid: 'user'
     });
-
-        // const usuarioRol = await Roles.create({
-        //     id_role
-        // })
+    
 
         res.json(newUsuario);
 

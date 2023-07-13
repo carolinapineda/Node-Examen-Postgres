@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import {sequelize} from '../database/database.js'
+import { Usuario } from "./usuario.js";
 
 export const Productos = sequelize.define('productos', {
     id: {
@@ -27,3 +28,5 @@ export const Productos = sequelize.define('productos', {
     timestamps: false
 });
 
+// Relacion de muchos a muchos
+// Productos.belongsTo(Usuario);

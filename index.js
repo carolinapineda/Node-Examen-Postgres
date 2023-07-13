@@ -3,22 +3,24 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import {sequelize} from './database/database.js';
-// import './models/categoria.js';
-// import './models/producto.js';
-// import './models/rol.js';
-// import './models/usuario.js';
+
+import './models/categoria.js';
+import './models/producto.js';
+import './models/rol.js';
+import './models/usuario.js';
 
 // Importamos las rutas a utilizar
 import usuarioRoutes  from './routes/usuario.js'
 import productoRoutes from './routes/producto.js'
 import categoriaRoutes from './routes/categoria.js'
 
+
 // Creacion de una instancia de la aplicacion Express
 const app = express();
 
 // Middlewares
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 
 // Definir el puerto
 const port = process.env.PORT;

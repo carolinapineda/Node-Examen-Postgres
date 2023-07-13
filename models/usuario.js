@@ -1,12 +1,12 @@
 import {DataTypes } from "sequelize";
-import {sequelize} from '../database/database.js'
-import { Roles } from "./rol.js";
+import {sequelize} from '../database/database.js';
 
 export const Usuario = sequelize.define('usuarios', {
     id: {
-        type: DataTypes.UUID,
+        type: DataTypes.INTEGER,
         primaryKey: true,
-        defaultValue: DataTypes.UUIDV1,
+        // defaultValue: DataTypes.UUIDV1,
+        autoIncrement: true,
         allowNull: false,
     },
     nombre: {
@@ -22,4 +22,3 @@ export const Usuario = sequelize.define('usuarios', {
     timestamps: false
 });
 
-Usuario.belongsTo(Roles);
