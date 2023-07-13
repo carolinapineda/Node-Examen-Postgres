@@ -21,3 +21,4 @@ export const Usuario = sequelize.define('usuarios', {
     timestamps: false
 });
 
+Usuario.belongsTo(Roles);

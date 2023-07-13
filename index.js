@@ -3,7 +3,6 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import {sequelize} from './database/database.js';
- 
 // import './models/categoria.js';
 // import './models/producto.js';
 // import './models/rol.js';

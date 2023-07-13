@@ -1,3 +1,4 @@
+import { Roles } from "../models/rol.js";
 import { Usuario } from "../models/usuario.js";
 import {Roles} from '../models/rol.js'
 
@@ -16,17 +17,26 @@ export const getUsuario = async(req, res) => {
 
 export const postUsuario = async(req, res) => {
 
-    const {nombre, correo, password} = req.body
-
-    const {id_role} = req.params
-
+    // obtener los datos de la solicitud
+    const {nombre, correo, password, roleid} = req.body
+    
     try {
+
+        const rolEncontrado = await Roles.findOne({
+            where: {id:2}
+        })
+
+        // if (!rolEncontrado) {
+        //     return res.status(400).json({ error: 'El rol especificado no existe' });
+        //   }
+
         // Para crear un usuario
         const newUsuario = await Usuario.create({
             nombre,
             correo,
             password,
-        });
+            roleid: roleid
+    });
 
         const usuarioRol = await Roles.create({
             id_role
