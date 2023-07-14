@@ -17,22 +17,26 @@ export const getUsuario = async(req, res) => {
 export const postUsuario = async(req, res) => {
 
     // obtener los datos de la solicitud
-    const {nombre, correo, roleid} = req.body
+    const {nombre, correo, password} = req.body
    
 
 
     try {
 
-        let role = await Roles.findAll({where:{id:2}})
+        let role = await Roles.findAll({where:{id:1}})
+
+        console.log("valor: ", role);
         
         const newUsuario = await Usuario.create({
             nombre,
             correo,
-            roleid: 'user'
+            password,
+            role
+
     });
     
-
-        res.json(newUsuario);
+        
+        // res.json(newUsuario);
 
     } catch (error) {
         return res.status(500).json({
