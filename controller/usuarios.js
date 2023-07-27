@@ -17,26 +17,28 @@ export const getUsuario = async(req, res) => {
 export const postUsuario = async(req, res) => {
 
     // obtener los datos de la solicitud
-    const {nombre, correo, password} = req.body
+    const {nombre, correo, password, roleid} = req.body
    
-
-
     try {
 
-        let role = await Roles.findAll({where:{id:1}})
+        const rolExistente = await Roles.findByPk(roleid);
 
-        console.log("valor: ", role);
+        // if (!rolExistente) {
+        //     return res.status(404).json({ mensaje: 'El rol especificado no existe' });
+        // }
+
+        // const nombrerol = rolExistente.rol
         
         const newUsuario = await Usuario.create({
             nombre,
             correo,
             password,
-            role
+            roleid
 
     });
     
-        
-        // res.json(newUsuario);
+        // console.log(newUsuario)
+        res.json(newUsuario);
 
     } catch (error) {
         return res.status(500).json({

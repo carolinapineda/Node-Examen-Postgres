@@ -13,10 +13,23 @@ export const Usuario = sequelize.define('usuarios', {
         type: DataTypes.STRING
     },
     correo: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        unique: true,  
+        validate: {
+            isEmail: {
+                msg: "El correo electronico es invalido"
+            }
+        }
     },
     password: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        validate: {
+            // Longitud minima y maxima
+            len: {
+                args: [4, 12],
+                msg: "La contraseña debe de tener entre 4 a 12 caracteres"
+            }
+        }
     },
 }, {
     timestamps: false
