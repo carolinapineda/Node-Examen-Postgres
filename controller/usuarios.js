@@ -20,25 +20,30 @@ export const postUsuario = async(req, res) => {
     const {nombre, correo, password, roleid} = req.body
    
     try {
-
-        const rolExistente = await Roles.findByPk(roleid);
-
-        // if (!rolExistente) {
-        //     return res.status(404).json({ mensaje: 'El rol especificado no existe' });
-        // }
-
-        // const nombrerol = rolExistente.rol
         
         const newUsuario = await Usuario.create({
             nombre,
             correo,
             password,
             roleid
-
     });
     
-        // console.log(newUsuario)
+    const rol = await Roles.findByPk(roleid)
+
+    if (rol) {
+        // Asociar el rol al usuario utilizando la clave foránea directamente
+        newUsuario.roleid = rol.dataValues.rol; // Asignar el valor del rol a la propiedad roleid del modelo Usuario
+        await newUsuario.save(); // Guardar el usuario con el rol asociado
+  
         res.json(newUsuario);
+      } else {
+        res.status(404).json({ error: 'No se encontró el rol con el ID especificado.' });
+      }
+
+
+        console.log(newUsuario)
+
+        // res.json(newUsuario);
 
     } catch (error) {
         return res.status(500).json({
