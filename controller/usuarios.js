@@ -17,7 +17,7 @@ export const getUsuario = async(req, res) => {
 export const postUsuario = async(req, res) => {
 
     // obtener los datos de la solicitud
-    const {nombre, correo, password, roleid} = req.body
+    const {nombre, correo, password, role_id} = req.body
    
     try {
         
@@ -25,25 +25,11 @@ export const postUsuario = async(req, res) => {
             nombre,
             correo,
             password,
-            roleid
+            role_id
     });
-    
-    const rol = await Roles.findByPk(roleid)
+        // console.log(newUsuario)
 
-    if (rol) {
-        // Asociar el rol al usuario utilizando la clave foránea directamente
-        newUsuario.roleid = rol.dataValues.rol; // Asignar el valor del rol a la propiedad roleid del modelo Usuario
-        await newUsuario.save(); // Guardar el usuario con el rol asociado
-  
         res.json(newUsuario);
-      } else {
-        res.status(404).json({ error: 'No se encontró el rol con el ID especificado.' });
-      }
-
-
-        console.log(newUsuario)
-
-        // res.json(newUsuario);
 
     } catch (error) {
         return res.status(500).json({

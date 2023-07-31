@@ -5,8 +5,8 @@ export const Usuario = sequelize.define('usuarios', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        // defaultValue: DataTypes.UUIDV1,
         autoIncrement: true,
+        // Para que no se permitan valores nulos
         allowNull: false,
     },
     nombre: {
@@ -14,10 +14,12 @@ export const Usuario = sequelize.define('usuarios', {
     },
     correo: {
         type: DataTypes.STRING,
-        unique: true,  
+        unique: {
+            msg: 'Este correo ya existe'
+        },  
         validate: {
             isEmail: {
-                msg: "El correo electronico es invalido"
+                msg: 'El correo electronico es invalido'
             }
         }
     },
@@ -27,7 +29,7 @@ export const Usuario = sequelize.define('usuarios', {
             // Longitud minima y maxima
             len: {
                 args: [4, 12],
-                msg: "La contraseña debe de tener entre 4 a 12 caracteres"
+                msg: 'La contraseña debe de tener entre 4 a 12 caracteres'
             }
         }
     },
