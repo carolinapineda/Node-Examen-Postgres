@@ -1,5 +1,6 @@
 import {DataTypes } from "sequelize";
 import {sequelize} from '../database/database.js';
+import { correoElectronico, validacionCorreo } from '../middleware/validacionCorreo.js';
 
 export const Usuario = sequelize.define('usuarios', {
     id: {
@@ -18,9 +19,11 @@ export const Usuario = sequelize.define('usuarios', {
             msg: 'Este correo ya existe'
         },  
         validate: {
+            // is: /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
             isEmail: {
-                msg: 'El correo electronico es invalido'
+                msg: 'El correo electronico es invalido',
             }
+            
         }
     },
     password: {
