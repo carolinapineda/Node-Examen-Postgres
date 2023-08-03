@@ -4,7 +4,7 @@ import {Usuario} from '../models/index.js'
 export const getUsuario = async(req, res) => {
 
     try {
-        // findAll hace que de todas las filas el trata de recorrerlas y genera un arreglo
+        
         const usuario = await Usuario.findAll();
         res.json(usuario);
     } catch (error) {
@@ -17,7 +17,7 @@ export const getUsuario = async(req, res) => {
 // Funcion para crear un usuario en la base de datos
 export const postUsuario = async(req, res) => {
 
-    // Obtener los datos de la solicitud
+    // Obtener los datos del cuerpo la solicitud
     const {nombre, correo, password, role_id} = req.body
    
     try {

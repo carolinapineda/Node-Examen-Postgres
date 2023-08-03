@@ -5,8 +5,13 @@ import { Usuario } from "./usuario.js";
 
 
 // Relacion de mis modelos
-Categorias.hasMany(Productos);
-Productos.belongsTo(Usuario);
+Categorias.hasMany(Productos, {
+    foreignKey: 'producto_id'
+});
+
+Productos.belongsTo(Usuario, {
+    foreignKey: 'usuario_id'
+});
 
 Roles.hasMany(Usuario, {
     foreignKey: 'role_id'
