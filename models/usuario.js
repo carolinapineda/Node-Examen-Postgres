@@ -34,8 +34,7 @@ export const Usuario = sequelize.define('usuarios', {
             // Valida el formato del correo electronico 
             isEmail: {
                 msg: 'El correo electronico es invalido',
-            }
-            
+            }  
         }
     },
     // Columna "password" para la contraseña del usuario
@@ -51,6 +50,9 @@ export const Usuario = sequelize.define('usuarios', {
     },
 }, {
     // Deshabilita las marcas de tiempo predeterminadas 'createdAt' y 'updatedAt'
-    timestamps: false
+    timestamps: false,
+
+    // Genera claves foreaneas de este tipo role_id en vez de roleid
+    underscored: true
 });
 
