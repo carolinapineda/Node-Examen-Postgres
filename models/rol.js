@@ -16,4 +16,4 @@ export const Roles = sequelize.define('roles', {
 });
 
 
-// Roles.hasMany(Usuario)
+Roles.hasMany(Usuario)

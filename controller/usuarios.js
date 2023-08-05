@@ -23,20 +23,19 @@ export const postUsuario = async(req, res) => {
 
     try {
 
-        let role = await Roles.findAll({where:{id:1}})
+        // let role = await Roles.findAll({where:{id:1}})
 
-        console.log("valor: ", role);
+        // console.log("valor: ", role);
         
         const newUsuario = await Usuario.create({
             nombre,
             correo,
-            password,
-            role
+            password 
 
     });
     
         
-        // res.json(newUsuario);
+        res.json(newUsuario);
 
     } catch (error) {
         return res.status(500).json({
