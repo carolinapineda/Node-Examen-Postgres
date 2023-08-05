@@ -1,12 +1,11 @@
 import { DataTypes } from "sequelize";
 import {sequelize} from '../database/database.js'
-import { Usuario } from "./usuario.js";
 
 export const Productos = sequelize.define('productos', {
     id: {
-        type: DataTypes.UUID,
+        type: DataTypes.INTEGER,
         primaryKey: true,
-        defaultValue: DataTypes.UUIDV1
+        autoIncrement: true
     },
     nombre: {
         type: DataTypes.STRING
@@ -25,8 +24,9 @@ export const Productos = sequelize.define('productos', {
     }
 
 }, {
-    timestamps: false
-});
+    // Deshabilita las marcas de tiempo predeterminadas 'createdAt' y 'updatedAt'
+    timestamps: false,
 
-// Relacion de muchos a muchos
-// Productos.belongsTo(Usuario);
+    // Genera claves foreaneas de este tipo role_id en vez de roleid
+    underscored: true
+});

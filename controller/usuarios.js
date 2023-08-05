@@ -1,10 +1,10 @@
-// import { Usuario } from "../models/usuario.js";
-import {Usuario, Roles} from '../models/index.js'
+import {Usuario} from '../models/index.js'
+
 
 export const getUsuario = async(req, res) => {
 
     try {
-        // findAll hace que de todas las filas el trata de recorrerlas y genera un arreglo
+        
         const usuario = await Usuario.findAll();
         res.json(usuario);
     } catch (error) {
@@ -14,33 +14,30 @@ export const getUsuario = async(req, res) => {
     };
 };
 
+// Funcion para crear un usuario en la base de datos
 export const postUsuario = async(req, res) => {
 
-    // obtener los datos de la solicitud
-    const {nombre, correo, password} = req.body
+    // Obtener los datos del cuerpo la solicitud
+    const {nombre, correo, password, role_id} = req.body
    
-
-
     try {
-
-        // let role = await Roles.findAll({where:{id:1}})
-
-        // console.log("valor: ", role);
         
+        // Crear un nuevo registro de usuario en la base de datos usando el modelo 'Usuario'
         const newUsuario = await Usuario.create({
             nombre,
             correo,
-            password 
-
+            password,
+            role_id
     });
-    
-        
+
+        // Respuesta con el objeto del nuevo usuario en formato JSON
         res.json(newUsuario);
 
     } catch (error) {
+        // En caso de un error, responde un codigo de estado 500(Error del servidor) y lanza un mensaje de error en formato Json
         return res.status(500).json({
             message: error.message
-        });
+        }); 
     }
 };
 

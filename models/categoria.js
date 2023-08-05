@@ -1,19 +1,19 @@
 import { DataTypes } from "sequelize"
 import {sequelize} from '../database/database.js'
-import { Productos } from "./producto.js";
 
 export const Categorias = sequelize.define('categorias', {
     id: {
-        type: DataTypes.UUID,
+        type: DataTypes.INTEGER,
         primaryKey: true,
-        defaultValue: DataTypes.UUIDV1
+        autoIncrement: true
     },
     nombre: {
         type: DataTypes.STRING
     },
 },{
-    timestamps: false
-});
+    // Deshabilita las marcas de tiempo predeterminadas 'createdAt' y 'updatedAt'
+    timestamps: false,
 
-// Relacion de uno a muchos
-// Categorias.hasMany(Productos);
+    // Genera claves foreaneas de este tipo role_id en vez de roleid
+    underscored: true
+});
