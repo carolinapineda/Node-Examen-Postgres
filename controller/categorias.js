@@ -16,11 +16,13 @@ export const postCategoria = async(req, res) => {
         nombre: sequelize.literal(`UPPER('${nombre}')`)
     });
 
+    res.json(newCategoria);
+
     if(newCategoria){
         return res.status(400).json({message: `La categoria ${nombre} ya existe`})
     }
 
-    res.json(newCategoria);
+   
 };
 
 

@@ -25,8 +25,5 @@ export const Productos = sequelize.define('productos', {
 
 }, {
     // Deshabilita las marcas de tiempo predeterminadas 'createdAt' y 'updatedAt'
-    timestamps: false,
-
-    // Genera claves foreaneas de este tipo role_id en vez de roleid
-    underscored: true
+    timestamps: false
 });

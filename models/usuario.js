@@ -50,9 +50,7 @@ export const Usuario = sequelize.define('usuarios', {
     },
 }, {
     // Deshabilita las marcas de tiempo predeterminadas 'createdAt' y 'updatedAt'
-    timestamps: false,
-
-    // Genera claves foreaneas de este tipo role_id en vez de roleid
-    underscored: true
+    timestamps: false
+    
 });
 
