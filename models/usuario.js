@@ -28,7 +28,8 @@ export const Usuario = sequelize.define('usuarios', {
         validate: {
             // El correo electronico debe conincidir con la expresion regular
             is: {
-                args: /^[a-zA-Z0-9._-]+@gmail\.com$/,
+                args: [ /^[a-zA-Z0-9._-]+@gmail\.com$/,
+                        /^[a-zA-Z0-9._-]+@hotmail\.com$/],
                 msg: 'El correo debe de ser @gmail.com'
             },
             // Valida el formato del correo electronico 
