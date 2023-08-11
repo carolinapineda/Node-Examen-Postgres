@@ -1,5 +1,6 @@
 import {DataTypes } from "sequelize";
 import {sequelize} from '../database/database.js';
+import { Roles } from "./rol.js";
 
 // Definir el modelo de la tbala usuarios
 export const Usuario = sequelize.define('usuarios', {

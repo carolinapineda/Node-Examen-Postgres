@@ -16,6 +16,10 @@ Productos.belongsTo(Usuario, {
 Roles.hasMany(Usuario, {
     foreignKey: 'role_id'
 });
+Usuario.belongsTo(Roles, { 
+    foreignKey: 'role_id',
+    as: 'role_i'
+});
 
  
 export {Categorias, Productos, Roles, Usuario};
