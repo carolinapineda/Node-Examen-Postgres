@@ -18,7 +18,7 @@ Roles.hasMany(Usuario, {
 });
 Usuario.belongsTo(Roles, { 
     foreignKey: 'role_id',
-    as: 'role_i'
+    // as: 'nombre'
 });
 
  

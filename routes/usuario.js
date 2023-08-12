@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import { deleteUsuario, getUsuario, getUsuarioPorId, postUsuario, putUsuario } from '../controller/usuarios.js';
+import { deleteUsuario, getUsuario, usuarioInfo, getUsuarioPorId, postUsuario, putUsuario, usuarioInfoPorIdRol } from '../controller/usuarios.js';
 
 // Crear una instancia del enrutador de Express
 const router = Router();
@@ -20,6 +20,9 @@ router.delete('/usuario/:id', deleteUsuario);
 router.get('/usuario/:id', getUsuarioPorId);
 
 // Ruta para traer a todos los usuarios pero con informacion especifica
-router.get('/usuario/info', );
+router.get('/info/usuario', usuarioInfo);
+
+// Ruta para traer un usuario con informacion especifica por medio del id
+router.get('/info/usuario/:id', usuarioInfoPorIdRol)
 
 export default router;
