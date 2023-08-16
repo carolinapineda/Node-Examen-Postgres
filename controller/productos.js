@@ -7,7 +7,7 @@ export const getProducto = async(req, res) => {
     res.json(productos);
 };
 
-// Funcion para crear un producto en la base de datos
+//Controlados para crear un producto en la base de datos
 export const postProducto = async(req, res) => {
 
      // Obtener los datos del cuerpo de la solicitud
@@ -15,8 +15,9 @@ export const postProducto = async(req, res) => {
     try {
        
 
-        // Crear un nuevo registro de producto en la base de datos usando en modelo 'Productos'
+        // Crear un nuevo registro de producto en la base de datos usando el modelo 'Productos'
         const newProducto = await Productos.create({
+
             nombre: sequelize.literal(`UPPER('${nombre}')`),
             precio,
             descripcion: sequelize.literal(`UPPER('${descripcion}')`),
@@ -26,61 +27,93 @@ export const postProducto = async(req, res) => {
 
         // Enviar el producto creado como respuesta json
         res.json(newProducto);
-        console.log(newProducto)
 
     } catch (error) {
+        // Manejar errores y responder con un estado de error y un mensaje
+        return res.status(500).json({
+            message: error.message
+        }); 
+    }   
+};
+
+// Controlador para actualizar un productos por medio de su id 
+export const putProducto = async(req, res) => {
+
+    try {
+        // Obtener el id del producto de los parametros de la url
+        const {id} = req.params;
+        // Obtener los datos del cuerpo la solicitud
+        const {nombre, precio, descripcion} = req.body;
+
+        // Buscar el producto por su id en la base de datos
+        const producto = await Productos.findByPk(id);
+
+            // Actualizar los atributos del producto
+            producto.nombre = sequelize.literal(`UPPER('${nombre}')`),
+            producto.precio = precio,
+            producto.descripcion = sequelize.literal(`UPPER('${descripcion}')`),
+        
+        // Guardar los cambios en la base de datos
+        await producto.save();
+        // Responder con el producto actualizado en formato JSON
+        res.json(await Productos.findOne({where:{id}}));
+
+    } catch (error) {
+        // Manejar errores y responder con un estado de error y un mensaje
         return res.status(500).json({
             message: error.message
         }); 
     }
-    
 };
 
-
-export const putProducto = async(req, res) => {
-
-    const {id} = req.params;
-
-    const {nombre, precio, descripcion} = req.body;
-
-    // findByPk() se utiliza para buscar un registro en una base de datos por su clave primaria
-    const producto = await Productos.findByPk(id);
-
-        producto.nombre = sequelize.literal(`UPPER('${nombre}')`),
-        producto.precio = precio,
-        producto.descripcion = sequelize.literal(`UPPER('${descripcion}')`),
-   
-    await producto.save();
-
-    res.json(await Productos.findOne({where:{id}}));
-};
-
-
+// Controlador para eliminar un producto por medio de su id 
 export const deleteProducto = async(req, res) => {
 
-    const {id} = req.params;
+    try {
+        // Obtener el id del producto de los parametros de la url
+        const {id} = req.params;
 
-    await Productos.destroy({
-        where: {id}
-    });
+        // Eliminar el producto de la base de datos por medio del id
+        await Productos.destroy({
+            where: {id}
+        });
+            // Respuesta con el producto encontrado en formato JSON
+            res.json({message: `Se elimino correctamente el producto con el id ${id}`})
 
-    res.json({message: `Se elimino correctamente el producto con el id ${id}`})
+        } catch (error) {
+            // Manejar errores y responder con un estado de error y un mensaje
+            return res.status(500).json({
+                message: error.message
+            }); 
+        }
 };
 
-
+// Controlador para obtener el producto por medio de su id 
 export const getProductoPorId = async(req, res) => { 
-    
-    const {id} = req.params;
 
-    const producto = await Productos.findOne({
-        where: {id}
-    });
+    try {
+        // Obtener el id del producto de los parametros de la url
+        const {id} = req.params;
 
-    if(!producto){
-        return res.status(400).json({
-            message: `No existe el usuario con el id ${id}`
+        // Buscar al producto en la base de datos por medio de su id
+        const producto = await Productos.findOne({
+            where: {id}
         });
-    };
 
-    res.json(producto);
+        // Verifica si se encontro el producto
+        if(!producto){
+            return res.status(400).json({
+                message: `No existe el usuario con el id ${id}`
+            });
+        };
+
+        // Respuesta con el producto encontrado en formato JSON
+        res.json(producto);
+        
+    } catch (error) {
+        // Manejar errores y responder con un estado de error y un mensaje
+        return res.status(500).json({
+            message: error.message
+        });
+    }
 };
