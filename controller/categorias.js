@@ -18,9 +18,9 @@ export const postCategoria = async(req, res) => {
 
     res.json(newCategoria);
 
-    if(newCategoria){
-        return res.status(400).json({message: `La categoria ${nombre} ya existe`})
-    }
+    // if(newCategoria){
+    //     return res.status(400).json({message: `La categoria ${nombre} ya existe`})
+    // }
 
    
 };

@@ -10,22 +10,30 @@ export const getProducto = async(req, res) => {
 // Funcion para crear un producto en la base de datos
 export const postProducto = async(req, res) => {
 
-    // Obtener los datos del cuerpo de la solicitud
-    const {nombre, precio, descripcion} = req.body;
+     // Obtener los datos del cuerpo de la solicitud
+     const {nombre, precio, descripcion, categoria_id, usuario_id} = req.body;
+    try {
+       
 
-    // Crear un nuevo registro de producto en la base de datos usando en modelo 'Productos'
-    const newProducto = await Productos.create({
-        // sequelize.literal() Permite incluir expresiones SQL literales en tus consultas sin ser modificadas ni escapadas por Sequelize.
-        // UPPER() es una función incorporada de PostgreSQL (un motor de base de datos compatible con Sequelize) que convierte una cadena de texto en mayúsculas.
-        // Usamos las comillas (') para asegurarnos de que Sequelize entienda que ${nombre} es una variable y debe ser reemplazada por su valor real al momento de ejecutar la consulta.
-        nombre: sequelize.literal(`UPPER('${nombre}')`),
-        precio,
-        descripcion: sequelize.literal(`UPPER('${descripcion}')`)
-    });
+        // Crear un nuevo registro de producto en la base de datos usando en modelo 'Productos'
+        const newProducto = await Productos.create({
+            nombre: sequelize.literal(`UPPER('${nombre}')`),
+            precio,
+            descripcion: sequelize.literal(`UPPER('${descripcion}')`),
+            categoria_id,
+            usuario_id
+        });
 
-    // Enviar el producto creado como respuesta json
-    res.json(newProducto);
+        // Enviar el producto creado como respuesta json
+        res.json(newProducto);
+        console.log(newProducto)
 
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message
+        }); 
+    }
+    
 };
 
 

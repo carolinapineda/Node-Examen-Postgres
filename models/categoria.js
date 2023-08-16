@@ -8,7 +8,10 @@ export const Categorias = sequelize.define('categorias', {
         autoIncrement: true
     },
     nombre: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        unique: {
+            msg: 'Esta categoria ya existe'
+        },  
     },
 },{
     // Deshabilita las marcas de tiempo predeterminadas 'createdAt' y 'updatedAt'
