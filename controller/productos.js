@@ -1,4 +1,5 @@
 import { sequelize } from "../database/database.js";
+import { Categorias } from "../models/categoria.js";
 import { Productos } from "../models/producto.js";
 
 export const getProducto = async(req, res) => {
@@ -109,7 +110,7 @@ export const getProductoPorId = async(req, res) => {
 
         // Respuesta con el producto encontrado en formato JSON
         res.json(producto);
-        
+
     } catch (error) {
         // Manejar errores y responder con un estado de error y un mensaje
         return res.status(500).json({
@@ -117,3 +118,37 @@ export const getProductoPorId = async(req, res) => {
         });
     }
 };
+
+// Controlador para traer los productos con informacion especifica
+export const infoProducto = async(req, res) =>{
+
+    try {
+        // Consultar la base de datos para traer todos los productos
+        const producto = await Productos.findAll({
+            attributes: {exclude: ['descripcion', 'usuario_id']}, //Excluir el atributo descripcion y usuario_id del modelo productos
+            includes: {
+                model: Categorias, //Incluir la informacion de categorias asociado a productos
+                as: 'ca',
+                attributes: ['nombre'] 
+            },
+            raw: true
+        })
+
+        // Funcion para retornar los productos y cambia el valor a mi atributo categoria_id
+        const transformarProducto = producto.map(produc => {
+            return {
+                ...produc,  //Retorna todos los atributos del usuario 
+                categoria_id: produc['Categoria.nombre']  //Agrega el nombre de la categoria en vez del id
+            };
+            
+
+          });
+          console.log(transformarProducto)
+        //   res.json(transformarProducto)
+    } catch (error) {
+        // Manejar errores y responder con un estado de error y un mensaje
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+}
