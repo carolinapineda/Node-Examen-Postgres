@@ -122,18 +122,33 @@ export const getUsuarioPorId = async(req, res) => {
 
     //findOne() obtiene la primera entrada que encuentra (que cumple con las opciones de consulta opcionales).
     // Busca un usuario por su id en la base de datos 
-    const usuario = await Usuario.findOne({
-        where: {id}
+    const usuario = await Usuario.findAll({
+        include: {
+            model:Roles,   //Incluir la informacion de roles asociado a usuarios
+            attributes: ['rol']  //Incluir solo el atributo rol del modelo asociado Roles  
+        },
+        where: {id},
+        raw: true   // Devolver los datos en formato plano
     });
 
+    const numero = usuario.length;
+
     // Verifica si se encontro el usuario
-    if(!usuario) 
+    if(!numero) 
             return res.status(400).json({
                 message: `no existe el usuario con el id ${id}`
             });
 
+    // Funcion para retornar los usuarios y cambiarle el valor a mi atributo role_id
+    const transformar = usuario.map(user => {
+        return {
+            ...user,  //Retorna todos los atributos del usuario 
+            role_id: user['rol']  //Agrega un nuevo atributo con el valor de rol
+        };
+      });
+
     // Respuesta con el usuario encontrado en formato JSON
-    res.json(usuario);
+    res.json(transformar);
 }; 
 
 // Controlador para obtener todos los usuarios pero con informacion especifica

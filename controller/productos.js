@@ -44,7 +44,7 @@ export const putProducto = async(req, res) => {
         // Obtener el id del producto de los parametros de la url
         const {id} = req.params;
         // Obtener los datos del cuerpo la solicitud
-        const {nombre, precio, descripcion} = req.body;
+        const {nombre, precio, descripcion, categoria_id, usuario_id} = req.body;
 
         // Buscar el producto por su id en la base de datos
         const producto = await Productos.findByPk(id);
@@ -129,16 +129,24 @@ export const infoProducto = async(req, res) =>{
             includes: {
                 model: Categorias, //Incluir la informacion de categorias asociado a productos
                 as: 'ca',
-                attributes: ['nombre'] 
+                attributes: ['Categoria.nombre'] 
             },
             raw: true
         })
+        
 
         // Funcion para retornar los productos y cambia el valor a mi atributo categoria_id
         const transformarProducto = producto.map(produc => {
+            // const categoriaNombre = producto.Categoria ? producto.Categoria.nombre : 'Sin categoría';
             return {
                 ...produc,  //Retorna todos los atributos del usuario 
                 categoria_id: produc['Categoria.nombre']  //Agrega el nombre de la categoria en vez del id
+                // id: produc.id,
+                // nombre: produc.nombre,
+                // precio: produc.precio,
+                // disponible: produc.disponible,
+                // categoria_id: produc.Categorias.nombre
+
             };
             
 

@@ -1,6 +1,5 @@
 import {DataTypes } from "sequelize";
 import {sequelize} from '../database/database.js';
-import { Roles } from "./rol.js";
 
 // Definir el modelo de la tbala usuarios
 export const Usuario = sequelize.define('usuarios', {
@@ -29,9 +28,8 @@ export const Usuario = sequelize.define('usuarios', {
         validate: {
             // El correo electronico debe conincidir con la expresion regular
             is: {
-                args: [ /^[a-zA-Z0-9._-]+@gmail\.com$/,
-                        /^[a-zA-Z0-9._-]+@hotmail\.com$/],
-                msg: 'El correo debe de ser @gmail.com'
+                args: /@(gmail|hotmail|outlook)\.com$/,
+                msg: 'El correo debe de ser @gmail.com, @hotmail, @outlook'
             },
             // Valida el formato del correo electronico 
             isEmail: {
