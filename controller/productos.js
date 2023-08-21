@@ -1,24 +1,57 @@
 import { sequelize } from "../database/database.js";
 import { Categorias } from "../models/categoria.js";
 import { Productos } from "../models/producto.js";
+import { Usuario } from "../models/usuario.js";
 
+// Controlador para obtener todos los productos
 export const getProducto = async(req, res) => {
     
-    const productos = await Productos.findAll();
-    res.json(productos);
+    try {
+        // Consultar la base de datos para obtener todos los productos
+        const producto = await Productos.findAll({
+            // Excluir los atributos usuario_id y categoria_id del modelo productos
+            attributes: {exclude: ['usuario_id', 'categoria_id']}, 
+            include: [
+                {
+                    model: Categorias,  //Incluir la informacion del modelo categorias asociado a productos
+                    attributes: [['nombre_categoria', 'nombre']]  //Incluir solo el atributo nombre_categoria del modelo Categorias
+                },     
+                {
+                    model: Usuario,  //Incluir la informacion del modelo usuarios asociado a productos
+                    attributes: ['nombre']  //Incluir solo el atributo nombre del modelo Usuarios
+                }
+            ],
+            raw:true  // Devolver los datos en formato plano
+        });
+
+        // Funcion para retornar los productos 
+        const transformarUsuario = producto.map(produc => {
+            return {
+                ...produc,  //Retorna todos los atributos de los productos 
+            };
+          });
+
+        // Responder con los productos obtenidos en formato JSON
+        res.json(transformarUsuario);
+       
+    } catch (error) {
+        // Manejar errores y responder con un estado de error y un mensaje
+        return res.status(500).json({
+            message: error.message
+        });
+    };
 };
 
-//Controlados para crear un producto en la base de datos
+//Controlador para crear un producto en la base de datos
 export const postProducto = async(req, res) => {
 
      // Obtener los datos del cuerpo de la solicitud
      const {nombre, precio, descripcion, categoria_id, usuario_id} = req.body;
     try {
-       
-
+    
         // Crear un nuevo registro de producto en la base de datos usando el modelo 'Productos'
         const newProducto = await Productos.create({
-
+            // Convertir el nombre y la descripción a mayúsculas antes de almacenarlos
             nombre: sequelize.literal(`UPPER('${nombre}')`),
             precio,
             descripcion: sequelize.literal(`UPPER('${descripcion}')`),
@@ -34,7 +67,7 @@ export const postProducto = async(req, res) => {
         return res.status(500).json({
             message: error.message
         }); 
-    }   
+    };  
 };
 
 // Controlador para actualizar un productos por medio de su id 
@@ -48,7 +81,6 @@ export const putProducto = async(req, res) => {
 
         // Buscar el producto por su id en la base de datos
         const producto = await Productos.findByPk(id);
-
             // Actualizar los atributos del producto
             producto.nombre = sequelize.literal(`UPPER('${nombre}')`),
             producto.precio = precio,
@@ -56,6 +88,7 @@ export const putProducto = async(req, res) => {
         
         // Guardar los cambios en la base de datos
         await producto.save();
+
         // Responder con el producto actualizado en formato JSON
         res.json(await Productos.findOne({where:{id}}));
 
@@ -64,7 +97,7 @@ export const putProducto = async(req, res) => {
         return res.status(500).json({
             message: error.message
         }); 
-    }
+    };
 };
 
 // Controlador para eliminar un producto por medio de su id 
@@ -81,12 +114,12 @@ export const deleteProducto = async(req, res) => {
             // Respuesta con el producto encontrado en formato JSON
             res.json({message: `Se elimino correctamente el producto con el id ${id}`})
 
-        } catch (error) {
-            // Manejar errores y responder con un estado de error y un mensaje
-            return res.status(500).json({
-                message: error.message
-            }); 
-        }
+    } catch (error) {
+        // Manejar errores y responder con un estado de error y un mensaje
+        return res.status(500).json({
+            message: error.message
+        }); 
+    };
 };
 
 // Controlador para obtener el producto por medio de su id 
@@ -116,47 +149,84 @@ export const getProductoPorId = async(req, res) => {
         return res.status(500).json({
             message: error.message
         });
-    }
+    };
 };
 
 // Controlador para traer los productos con informacion especifica
 export const infoProducto = async(req, res) =>{
 
     try {
+
         // Consultar la base de datos para traer todos los productos
         const producto = await Productos.findAll({
-            attributes: {exclude: ['descripcion', 'usuario_id']}, //Excluir el atributo descripcion y usuario_id del modelo productos
-            includes: {
+            // Excluir los atributos del modelo productos
+            attributes: {exclude: ['descripcion', 'usuario_id', 'categoria_id']},
+            include: {
                 model: Categorias, //Incluir la informacion de categorias asociado a productos
-                as: 'ca',
-                attributes: ['Categoria.nombre'] 
+                attributes: [['nombre_categoria', 'nombre']],  // Incluir solo el atributo nombre_categoria y asignarle un alias
+                where: {id}
             },
-            raw: true
-        })
+            raw: true  // Devolver los datos en formato plano
+        });
         
-
-        // Funcion para retornar los productos y cambia el valor a mi atributo categoria_id
+        // Funcion para retornar los productos 
         const transformarProducto = producto.map(produc => {
-            // const categoriaNombre = producto.Categoria ? producto.Categoria.nombre : 'Sin categoría';
             return {
-                ...produc,  //Retorna todos los atributos del usuario 
-                categoria_id: produc['Categoria.nombre']  //Agrega el nombre de la categoria en vez del id
-                // id: produc.id,
-                // nombre: produc.nombre,
-                // precio: produc.precio,
-                // disponible: produc.disponible,
-                // categoria_id: produc.Categorias.nombre
-
+                ...produc,  //Retorna todos los atributos del producto
             };
-            
-
           });
-          console.log(transformarProducto)
-        //   res.json(transformarProducto)
+
+        // Respuesta con los productos encontrados en formato JSON
+        res.json(transformarProducto);
+
     } catch (error) {
         // Manejar errores y responder con un estado de error y un mensaje
         return res.status(500).json({
             message: error.message
         });
-    }
-}
+    };
+};
+
+
+export const infoProductoPorIdCategoria = async(req, res) => {
+
+    try {
+        // Obtener el id de los parametros de la url
+        const {id} = req.params;
+
+        // Consultar la base de datos para traer todos los productos
+        const producto = await Productos.findAll({
+            attributes: {exclude: ['descripcion', 'usuario_id', 'categoria_id']}, //Excluir el atributo descripcion y usuario_id del modelo productos
+            include: {
+                model: Categorias, //Incluir la informacion de categorias asociado a productos
+                attributes: [['nombre_categoria', 'nombre']],  // Incluir el atributo nombre_categoria y darle un alias
+                where: {id}
+            },
+            raw: true  // Devolver los datos en formato plano
+        });
+
+        // Obtener el número de elementos que devuelve la consulta
+        const numero = producto.length;
+
+        // Verificar si hay coincidencias o no
+        if (numero) {
+            // Hay coincidencias, transformar el resultado y responder con los productos obtenidos en formato JSON
+            res.json(producto.map(product => ({
+                ...product,  // Retornar todos los atributos del producto
+            })));
+
+        } else {
+
+          // No hay coincidencias, responder con un estado de error y un mensaje
+          return res.status(400).json({
+            message: `No se encontraron resultados con el id ${id}`
+          });
+        }
+
+    } catch (error) {
+        // Manejar errores y responder con un estado de error y un mensaje
+        return res.status(500).json({
+            message: error.message
+        });
+    };
+};

@@ -169,7 +169,7 @@ export const usuarioInfo = async(req, res) => {
         const transformarUsuario = usuarios.map(user => {
             return {
                 ...user,  //Retorna todos los atributos del usuario 
-                role_id: user['rol']  //Agrega un nuevo atributo con el valor de rol
+                role_id: ['rol'] //Agrega un nuevo atributo con el valor de rol
             };
           });
 

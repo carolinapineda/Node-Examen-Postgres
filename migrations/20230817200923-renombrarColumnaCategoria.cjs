@@ -3,10 +3,10 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.renameColumn();
+    await queryInterface.renameColumn('categorias', 'nombre', 'nombre_categoria');
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.renameColumn();
+    await queryInterface.renameColumn('categorias', 'nombre_categoria', 'nombre');
   }
 };

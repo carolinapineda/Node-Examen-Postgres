@@ -7,7 +7,10 @@ import { Usuario } from "./usuario.js";
 // Relacion de mis modelos
 Categorias.hasMany(Productos, {
     foreignKey: 'categoria_id',
-    as: 'categorias'
+});
+
+Productos.belongsTo(Categorias, {
+    foreignKey: 'categoria_id'
 });
 
 Productos.belongsTo(Usuario, {
