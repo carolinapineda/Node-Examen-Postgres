@@ -157,7 +157,7 @@ export const usuarioInfo = async(req, res) => {
     try {
         // Consulta la base de datos para obtener todos los usuarios
         const usuarios = await Usuario.findAll({
-            attributes: {exclude: ['password']},  //Excluir solo el atributo password del modelo Usuario
+            attributes: {exclude: ['password', 'role_id']},  //Excluir solo el atributo password del modelo Usuario
             include:{
                 model: Roles,   //Incluir la informacion de roles asociado a usuarios
                 attributes: ['rol'],  //Incluir solo el atributo rol del modelo asociado Roles  
@@ -166,15 +166,15 @@ export const usuarioInfo = async(req, res) => {
         });
 
         // Funcion para retornar los usuarios y cambiarle el valor a mi atributo role_id
-        const transformarUsuario = usuarios.map(user => {
-            return {
-                ...user,  //Retorna todos los atributos del usuario 
-                role_id: ['rol'] //Agrega un nuevo atributo con el valor de rol
-            };
-          });
+        // const transformarUsuario = usuarios.map(user => {
+        //     return {
+        //         ...user,  //Retorna todos los atributos del usuario 
+        //         // role_id: ['rol'] //Agrega un nuevo atributo con el valor de rol
+        //     };
+        //   });
 
         // Responder con los usuarios obtenidos en formato JSON
-        res.json(transformarUsuario)
+        res.json(usuarios)
     
     } catch (error) {
         // Manejar errores y responder con un estado de error y un mensaje
@@ -192,7 +192,7 @@ export const usuarioInfoPorIdRol = async(req, res) => {
 
         // Consultar la base de datos para obtener el usuario con informaion especifica por medio del id del modelo Roles
         const usuario = await Usuario.findAll({
-            attributes: {exclude: ['password']},  //Excluir solo el atributo password del modelo Usarios
+            attributes: {exclude: ['password', 'role_id']},  //Excluir solo el atributo password del modelo Usarios
             include:{
                 model: Roles,  //Incluir la informacion de roles asociado a usuarios
                 attributes: ['rol'],  //Incluir solo el atributo rol del modelo Roles
@@ -206,11 +206,7 @@ export const usuarioInfoPorIdRol = async(req, res) => {
 
         // Verificar si hay coincidencias o no
         if (numero) {
-            // Hay coincidencias, transformar el resultado y responder con los usuarios obtenidos en formato JSON
-            res.json(usuario.map(user => ({
-                ...user,
-                role_id: user['rol'] // Acceder al atributo rol del alias rol
-            })));
+            res.json(usuario)
 
         } else {
 

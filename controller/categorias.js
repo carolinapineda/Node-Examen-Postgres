@@ -10,18 +10,13 @@ export const getCategoria = async(req, res) => {
 
 export const postCategoria = async(req, res) => {
 
-    const {nombre} = req.body;
+    const {nombre_categoria} = req.body;
 
     const newCategoria = await Categorias.create({
-        nombre: sequelize.literal(`UPPER('${nombre}')`)
+        nombre_categoria: sequelize.literal(`UPPER('${nombre_categoria}')`)
     });
 
     res.json(newCategoria);
-
-    // if(newCategoria){
-    //     return res.status(400).json({message: `La categoria ${nombre} ya existe`})
-    // }
-
    
 };
 
@@ -29,11 +24,11 @@ export const postCategoria = async(req, res) => {
 export const putCategoria = async(req, res) => {
 
     const {id} = req.params;
-    const {nombre} = req.body;
+    const {nombre_categoria} = req.body;
 
     const categoria = await Categorias.findByPk(id);
 
-    categoria.nombre = sequelize.literal(`UPPER('${nombre}')`)
+    categoria.nombre_categoria = sequelize.literal(`UPPER('${nombre_categoria}')`)
 
     await categoria.save();
 

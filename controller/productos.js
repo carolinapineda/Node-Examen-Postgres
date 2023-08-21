@@ -24,15 +24,8 @@ export const getProducto = async(req, res) => {
             raw:true  // Devolver los datos en formato plano
         });
 
-        // Funcion para retornar los productos 
-        const transformarUsuario = producto.map(produc => {
-            return {
-                ...produc,  //Retorna todos los atributos de los productos 
-            };
-          });
-
         // Responder con los productos obtenidos en formato JSON
-        res.json(transformarUsuario);
+        res.json(producto);
        
     } catch (error) {
         // Manejar errores y responder con un estado de error y un mensaje
@@ -164,20 +157,12 @@ export const infoProducto = async(req, res) =>{
             include: {
                 model: Categorias, //Incluir la informacion de categorias asociado a productos
                 attributes: [['nombre_categoria', 'nombre']],  // Incluir solo el atributo nombre_categoria y asignarle un alias
-                where: {id}
             },
             raw: true  // Devolver los datos en formato plano
         });
         
-        // Funcion para retornar los productos 
-        const transformarProducto = producto.map(produc => {
-            return {
-                ...produc,  //Retorna todos los atributos del producto
-            };
-          });
-
         // Respuesta con los productos encontrados en formato JSON
-        res.json(transformarProducto);
+        res.json(producto);
 
     } catch (error) {
         // Manejar errores y responder con un estado de error y un mensaje
@@ -210,10 +195,7 @@ export const infoProductoPorIdCategoria = async(req, res) => {
 
         // Verificar si hay coincidencias o no
         if (numero) {
-            // Hay coincidencias, transformar el resultado y responder con los productos obtenidos en formato JSON
-            res.json(producto.map(product => ({
-                ...product,  // Retornar todos los atributos del producto
-            })));
+            res.json(producto);
 
         } else {
 
