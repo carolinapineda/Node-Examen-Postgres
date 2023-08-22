@@ -7,7 +7,7 @@ export const Categorias = sequelize.define('categorias', {
         primaryKey: true,
         autoIncrement: true
     },
-    nombre: {
+    nombre_categoria: {
         type: DataTypes.STRING,
         unique: {
             msg: 'Esta categoria ya existe'

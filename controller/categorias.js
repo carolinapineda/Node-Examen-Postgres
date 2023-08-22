@@ -13,10 +13,12 @@ export const postCategoria = async(req, res) => {
     const {nombre_categoria} = req.body;
 
     const newCategoria = await Categorias.create({
+        
         nombre_categoria: sequelize.literal(`UPPER('${nombre_categoria}')`)
     });
 
     res.json(newCategoria);
+    console.log(newCategoria)
    
 };
 

@@ -165,13 +165,7 @@ export const usuarioInfo = async(req, res) => {
             raw: true  // Devolver los datos en formato plano
         });
 
-        // Funcion para retornar los usuarios y cambiarle el valor a mi atributo role_id
-        // const transformarUsuario = usuarios.map(user => {
-        //     return {
-        //         ...user,  //Retorna todos los atributos del usuario 
-        //         // role_id: ['rol'] //Agrega un nuevo atributo con el valor de rol
-        //     };
-        //   });
+        
 
         // Responder con los usuarios obtenidos en formato JSON
         res.json(usuarios)
