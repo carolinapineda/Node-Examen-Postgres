@@ -212,3 +212,17 @@ export const infoProductoPorIdCategoria = async(req, res) => {
         });
     };
 };
+
+// Controlador para dar de alta un producto
+export const altaProducto = async(res, req ) => {
+
+    // const {nombre} = req.params;
+
+    const {existencia, nombre} = req.body;
+
+    const producto = Productos.findOne({
+        where: {nombre}
+    });
+
+    producto.existencia = existencia;
+}

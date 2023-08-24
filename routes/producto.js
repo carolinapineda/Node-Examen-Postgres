@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import { deleteProducto, getProducto, getProductoPorId, infoProducto, infoProductoPorIdCategoria, postProducto, putProducto } from '../controller/productos.js';
+import { altaProducto, deleteProducto, getProducto, getProductoPorId, infoProducto, infoProductoPorIdCategoria, postProducto, putProducto } from '../controller/productos.js';
 
 const router = Router();
 
@@ -23,5 +23,8 @@ router.get('/info/producto', infoProducto);
 
 // Ruta para traer informacion especifica por medio de su id
 router.get('/info/producto/:id', infoProductoPorIdCategoria);
+
+// Ruta para dar de alta un producto 
+router.put('/alta/producto', altaProducto);
 
 export default router;
