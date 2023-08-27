@@ -21,6 +21,11 @@ export const Productos = sequelize.define('productos', {
     disponible: {
         type: DataTypes.BOOLEAN,
         defaultValue: true
+    },
+    existencia: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
     }
 
 }, {

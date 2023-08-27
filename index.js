@@ -8,11 +8,13 @@ import './models/categoria.js';
 import './models/producto.js';
 import './models/rol.js';
 import './models/usuario.js';
+import './models/ventas.js';
 
 // Importamos las rutas a utilizar
 import usuarioRoutes  from './routes/usuario.js'
 import productoRoutes from './routes/producto.js'
 import categoriaRoutes from './routes/categoria.js'
+import ventasRoutes from './routes/ventas.js';
 
 
 // Creacion de una instancia de la aplicacion Express
@@ -37,6 +39,7 @@ app.use(cors(corsOpcion));
 app.use(usuarioRoutes);
 app.use(productoRoutes);
 app.use(categoriaRoutes);
+app.use(ventasRoutes);
 
 
 async function main() { 

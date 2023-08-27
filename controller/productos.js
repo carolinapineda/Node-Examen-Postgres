@@ -1,3 +1,4 @@
+import { Sequelize } from "sequelize";
 import { sequelize } from "../database/database.js";
 import { Categorias } from "../models/categoria.js";
 import { Productos } from "../models/producto.js";
@@ -70,7 +71,7 @@ export const putProducto = async(req, res) => {
         // Obtener el id del producto de los parametros de la url
         const {id} = req.params;
         // Obtener los datos del cuerpo la solicitud
-        const {nombre, precio, descripcion, categoria_id, usuario_id} = req.body;
+        const {nombre, precio, descripcion} = req.body;
 
         // Buscar el producto por su id en la base de datos
         const producto = await Productos.findByPk(id);
@@ -172,7 +173,7 @@ export const infoProducto = async(req, res) =>{
     };
 };
 
-
+// Controlador pra buscar un producto por el id categoria
 export const infoProductoPorIdCategoria = async(req, res) => {
 
     try {
@@ -214,15 +215,51 @@ export const infoProductoPorIdCategoria = async(req, res) => {
 };
 
 // Controlador para dar de alta un producto
-export const altaProducto = async(res, req ) => {
+export const altaProducto = async(req, res) => {
 
-    // const {nombre} = req.params;
+    try {
+        // Obetener datos del cuerpo de la solicitud
+        const {nombre, existencia} = req.body;
 
-    const {existencia, nombre} = req.body;
+        // Buscar el producto por su nombre
+        const producto = await Productos.findOne({
+            where: {
+                nombre: {
+                    [Sequelize.Op.iLike]: nombre
+                }
+            }
+        });
 
-    const producto = Productos.findOne({
-        where: {nombre}
-    });
+        // Verificar si el producto se encuentra
+        if (!producto) {
+            return res.status(404).json({ error: "Producto no encontrado" });
+        }
 
-    producto.existencia = existencia;
-}
+        // Incrementar la existencia del producto 
+        await Productos.increment('existencia', {
+            where: { id: producto.id }, 
+          });
+        
+        // Respuesta en formato JSON
+        res.json({message: 'Existencia actualizada corectamente'})
+
+    } catch (error) {
+        // Manejar errores y responder con un estado de error y un mensaje
+        return res.status(500).json({
+            message: error.message
+        });
+    };
+};
+
+
+export const ventaProductos = async(req, res) => {
+
+    try {
+        
+    } catch (error) {
+        // Manejar errores y responder con un estado de error y un mensaje
+        return res.status(500).json({
+            message: error.message
+        });
+    };
+};
