@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import { altaProducto, deleteProducto, getProducto, getProductoPorId, infoProducto, infoProductoPorIdCategoria, postProducto, putProducto, ventaProductos } from '../controller/productos.js';
+import { altaProducto, deleteProducto, getProducto, getProductoPorId, infoProducto, infoProductoPorIdCategoria, postProducto, putProducto} from '../controller/productos.js';
 
 const router = Router();
 
@@ -27,7 +27,5 @@ router.get('/info/producto/:id', infoProductoPorIdCategoria);
 // Ruta para dar de alta un producto 
 router.post('/alta/producto', altaProducto);
 
-// Ruta para venta de productos 
-router.post('/venta/producto', ventaProductos);
 
 export default router;

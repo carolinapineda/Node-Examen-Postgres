@@ -1,4 +1,4 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { DataTypes} from "sequelize";
 import {sequelize} from '../database/database.js'
 
 // Definir el modelo de la tabla detallesVentas 

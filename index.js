@@ -16,7 +16,6 @@ import productoRoutes from './routes/producto.js'
 import categoriaRoutes from './routes/categoria.js'
 import ventasRoutes from './routes/ventas.js';
 
-
 // Creacion de una instancia de la aplicacion Express
 const app = express();
 
@@ -40,7 +39,6 @@ app.use(usuarioRoutes);
 app.use(productoRoutes);
 app.use(categoriaRoutes);
 app.use(ventasRoutes);
-
 
 async function main() { 
     try {

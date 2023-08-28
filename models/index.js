@@ -58,4 +58,4 @@ Ventas.belongsTo(DetallesVentas, {
 
 
  
-export {Categorias, Productos, Roles, Usuario, Ventas};
+export {Categorias, Productos, Roles, Usuario, Ventas, DetallesVentas};

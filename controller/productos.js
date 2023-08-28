@@ -250,16 +250,3 @@ export const altaProducto = async(req, res) => {
         });
     };
 };
-
-
-export const ventaProductos = async(req, res) => {
-
-    try {
-        
-    } catch (error) {
-        // Manejar errores y responder con un estado de error y un mensaje
-        return res.status(500).json({
-            message: error.message
-        });
-    };
-};
